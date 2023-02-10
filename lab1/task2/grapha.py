@@ -23,6 +23,7 @@ def time_a(x):
     start = process_time()
     f(x,k,p,k,buffer)
     end = process_time()
+    del buffer
 
     print(f'Time: {end-start}, {x}')
     
@@ -30,8 +31,8 @@ def time_a(x):
 
 
 n = 2700
-linear = [n+x for x in range(0,1001)]
-exponential = [2**x * n for x in range(3)] # over 3 gives seg fault, number is 21600
+linear = [n+x for x in range(0,50)]
+exponential = [2**x * n for x in range(4)] # over 4 kills it, number is 43200
 
 print(linear, exponential)
 

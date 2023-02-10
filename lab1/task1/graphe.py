@@ -20,7 +20,6 @@ def bottom_up(n):
     buffer = [0 for i in range(n+1)]
     for i in range(1,n+1):
         buffer[i] = min(i, 1 + get_buffer(i-a, buffer), 1 + get_buffer(i-b, buffer), 1 + get_buffer(i-c, buffer))
-        print(buffer)
 
     return buffer[n]
 
@@ -34,12 +33,12 @@ def time_e(n):
     return end - start
 
 
-n = 82
+n = 2_300_000
 a = 5
 b = 6
 c = 7
 linear = [n+x for x in range(0,20)]
-exponential = [2**x * n for x in range(3)] # over 3 gives seg fault, number is 21600
+exponential = [2**x * n for x in range(7)]
 
 print(linear, exponential)
 

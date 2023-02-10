@@ -29,5 +29,5 @@ def time_b(n):
     return end - start
 
 
-for i in range(30_000,100_000, 1000):
+for i in range(3_500_000,100_000_000, 100_000):
     time_b(i) # gets segfault immedietly 

@@ -30,9 +30,9 @@ def time_b(n):
     return end - start
 
 
-n = 2700
-linear = [n+x for x in range(0,1001)]
-exponential = [2**x * n for x in range(3)] # over 3 gives seg fault, number is 21600
+n = 4_200_000 #2700
+linear = [n+x for x in range(0,50)]
+exponential = [2**x * n for x in range(3)] # over 3 gives killed, number is 33 600 000
 
 print(linear, exponential)
 
@@ -42,12 +42,22 @@ plt.plot(linear, linear_res)
 plt.xlabel(r'n')
 plt.ylabel(r'time [s]')
 plt.grid()
-plt.savefig('b_linear.png')
+plt.savefig('b_linear_short.png')
 
 
 exponential_res = [time_b(x) for x in exponential]
+plt.title("Runtime")
 plt.plot(exponential, exponential_res)
 plt.xlabel(r'n')
 plt.ylabel(r'time [s]')
 plt.grid()
 plt.savefig('b_exponential.png')
+
+linear = [n+x for x in range(0,1000)]
+linear_res = [time_b(x) for x in linear]
+plt.title("Runtime")
+plt.plot(linear, linear_res)
+plt.xlabel(r'n')
+plt.ylabel(r'time [s]')
+plt.grid()
+plt.savefig('b_linear.png')

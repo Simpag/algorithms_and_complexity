@@ -35,5 +35,5 @@ a = 5
 b = 6
 c = 7
 # Find runtime of about 1
-for i in range(50_000,10_000_000, 100):
+for i in range(1_500_000,10_000_000, 100_000):
     print(time_b(i), i) # Seg fault before 1 s is reached

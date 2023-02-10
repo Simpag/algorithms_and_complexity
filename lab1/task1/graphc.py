@@ -32,12 +32,12 @@ def time_b(n):
     return end - start
 
 
-n = 82
+n = 2_300_000
 a = 5
 b = 6
 c = 7
 linear = [n+x for x in range(0,20)]
-exponential = [2**x * n for x in range(3)] # over 3 gives seg fault, number is 21600
+exponential = [2**x * n for x in range(5)] # over 5 gives "killed", number is 73_600_000
 
 print(linear, exponential)
 

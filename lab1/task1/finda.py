@@ -27,5 +27,5 @@ a = 5
 b = 6
 c = 7
 # Find runtime of about 1
-for i in range(1,10_000, 1):
+for i in range(101,10_000, 1):
     print(time_a(i), i)
