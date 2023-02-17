@@ -38,22 +38,70 @@ a = 5
 b = 6
 c = 7
 linear = [n+x for x in range(0,20)]
-exponential = [2**x * n for x in range(7)]
+exponential = [2**x * n for x in range(5)]
 
 print(linear, exponential)
 
-linear_res = [time_e(x) for x in linear]
-plt.title("Runtime")
-plt.plot(linear, linear_res)
-plt.xlabel(r'n')
-plt.ylabel(r'time [s]')
-plt.grid()
-plt.savefig('e_linear.png')
+#linear_res = [time_e(x) for x in linear]
+#plt.title("Runtime")
+#plt.plot(linear, linear_res)
+#plt.xlabel(r'n')
+#plt.ylabel(r'time [s]')
+#plt.grid()
+#plt.savefig('e_linear.png')
 
-
+#delete me
 exponential_res = [time_e(x) for x in exponential]
+plt.title("Runtime")
 plt.plot(exponential, exponential_res)
 plt.xlabel(r'n')
 plt.ylabel(r'time [s]')
 plt.grid()
 plt.savefig('e_exponential.png')
+plt.close()
+
+
+def memoization(n):
+    b_buffer = [None for x in range(n+1)]
+
+    return memoization_helper(n, b_buffer)
+    
+def memoization_helper(n, buffer):    
+    if n < 0:
+        return 10**10
+    elif n == 0:
+        return 0
+    elif buffer[n] is not None:
+        return buffer[n]
+    else:
+        buffer[n] = min(n, 1 + memoization_helper(n-a, buffer), 1 + memoization_helper(n-b, buffer), 1 + memoization_helper(n-c, buffer))
+
+    return buffer[n]
+
+def time_b(n):
+    start = process_time()
+    memoization(n)
+    end = process_time()
+
+    print(f'Time: {end-start}, {n}')
+    
+    return end - start
+
+exponential_res2 = [time_b(x) for x in exponential]
+plt.title("Runtime")
+plt.plot(exponential, exponential_res2)
+plt.xlabel(r'n')
+plt.ylabel(r'time [s]')
+plt.grid()
+plt.savefig('c_exponential.png')
+plt.close()
+
+
+plt.title("Runtime")
+plt.plot(exponential, exponential_res2, label="c")
+plt.plot(exponential, exponential_res, label="e")
+plt.xlabel(r'n')
+plt.ylabel(r'time [s]')
+plt.grid()
+plt.legend()
+plt.savefig('e_c_exponential.png')

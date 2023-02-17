@@ -41,13 +41,13 @@ exponential = [2**x * n for x in range(5)] # over 5 gives "killed", number is 73
 
 print(linear, exponential)
 
-linear_res = [time_b(x) for x in linear]
-plt.title("Runtime")
-plt.plot(linear, linear_res)
-plt.xlabel(r'n')
-plt.ylabel(r'time [s]')
-plt.grid()
-plt.savefig('c_linear.png')
+#linear_res = [time_b(x) for x in linear]
+#plt.title("Runtime")
+#plt.plot(linear, linear_res)
+#plt.xlabel(r'n')
+#plt.ylabel(r'time [s]')
+#plt.grid()
+#plt.savefig('c_linear.png')
 
 
 exponential_res = [time_b(x) for x in exponential]
