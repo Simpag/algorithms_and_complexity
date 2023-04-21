@@ -52,6 +52,7 @@ def run():
     k = m+1
 
     # Minimum requirements for a possible solution of the vertex coloring problem
+    # Not needed:
     if V == 0 and E == 0 and m == 0:
         print(positive_output)
         return
@@ -60,6 +61,7 @@ def run():
         print(negative_output)
         return
     
+    # Needed:
     if E == 0 and m > 0:
         print(positive_output)
         return
@@ -68,6 +70,7 @@ def run():
     # 3 Roles  (# verticies)
     # 2 Scenes (# edges)
     # 3 Actors (# colors)
+    # Not needed:
     if k < 3 or len(edges) < 2 or n < 3:
         print(negative_output)
         return
