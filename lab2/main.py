@@ -1,86 +1,73 @@
-# Parse input
-n = int(input()) # number of roles
-s = int(input()) # number of scenes
-k = int(input()) # number of actors
+# Check special cases
+# V = 0, V < 2
+# E = 0 (no scenes)
+# m < 2
 
-p1 = 1 # diva 1
-p2 = 2 # diva 2
+def run():
+    negative_output = """5
+    5
+    3
+    3 1 2 3
+    2 2 3
+    2 1 3
+    1 2
+    3 1 2 3
+    2 1 2
+    2 1 2
+    3 1 3 4
+    2 3 5
+    3 2 3 5"""
 
-constraints_type_1 = {}
-constraints_type_2 = []
+    V = int(input())
+    E = int(input())
+    m = int(input())
 
-for role in range(n):
-    l = input()
-    parts = list(map(int, l.split(" ")))
-    actors = parts[1:]
-    constraints_type_1[role+1] = actors
-
-for i in range(s):
-    l = input()
-    parts = list(map(int, l.split(" ")))
-    roles = parts[1:]
-    constraints_type_2.append(roles)
-
-
-## Create graph
-def graph(n, s, k, constraints_type_1, constraints_type_2):
-    # Create a graph
-    nodes = []
+    # Create graph
+    scenes = []
     edges = []
+    isolated_vertex = [True,] * V # Keep track of all isolated verticies
+    for _ in range(E):
+        u, v = map(int, input().split())
+        isolated_vertex[u-1] = False
+        isolated_vertex[v-1] = False
+        edges.append((u,v) if u < v else (v,u)) # add the in increasing order
 
-    # Add nodes for each role
-    for role in range(1, n+1):
-        nodes.append(role)
+    for i, is_isolated in enumerate(isolated_vertex):
+        if is_isolated:
+            # add an edge to anywhere
+            edges.append((3, i+1))
 
-    # Add nodes for each actor
-    for actor in range(1, k+1):
-        nodes.append(actor+n)
+    # Minimum requirements for a possible solution
+    if m < 3 or V < 3 or E < 2:
+        print(negative_output)
+        return
 
-    # Add one node for the divas
-    nodes.append(k+n+1)
+    # Add one role and one actor to the problem to account
+    # for the divas
+    n = V+1
+    k = m+1
 
-    # Add edges for constraints of type 1
-    # I.e add edges between every role that an actor can play
-    for role, actors in constraints_type_1.items():
-        for actor in actors:
-            edges.append((role, actor+n))
+    # Each edge is a scene, add one to avoid using role 1
+    for r_1, r_2 in edges:
+        # now add to scenes
+        scenes.append(set([r_1+1, r_2+1]))
+
+    # Create a scene for the divas
+    # Diva 1 and Diva 2 can not play together
+    scenes.append(set([1, 3]))
+
+    # Every actor can play every role except for role 1
+    # Role 1 is reserved for Diva 1
+    roles = [list(range(1,k+1)) for x in range(n)]
+    roles[0] = [1]
 
 
-    # Add edges for constraints of type 2
-    # I.e add an edge between every role that appear in the same scene
-    for roles in constraints_type_2:
-        for i in range(len(roles)):
-            for j in range(i+1, len(roles)):
-                edges.append((roles[i], roles[j]))
-
-
-
-    # Add edges for the divas not playing together
-    # I.e add an edge between all roles that the divas can play
-    diva_roles = []
-    for role in constraints_type_1:
-        if p1 in constraints_type_1[role] or p2 in constraints_type_1[role]:
-            diva_roles.append(role)
-
-    print("Diva roles")
-    print(diva_roles)
-    for roles_in_scene in constraints_type_2:
-        d = [value for value in diva_roles if value in roles_in_scene]
-
-        if len(d) > 1:
-            for role in d:
-                edges.append((role, k+n+1))
+    print(n)
+    print(len(scenes))
+    print(k)
+    for item in roles:
+        print(len(item), *item) # * unpacks the items in the list (might be called spread operator?)
+    for item in scenes:
+        print(len(item), *item)
         
-
-
-    return nodes, edges
-
-
-nodes, edges = graph(n, s, k, constraints_type_1, constraints_type_2)
-
-# The reduction is now V = len(nodes), E = len(edges), m = k and then all elements of edges
-print(len(nodes))
-print(len(edges))
-print(k)
-for edge in edges:
-    print(f'{edge[0]} {edge[1]}')
+run()
